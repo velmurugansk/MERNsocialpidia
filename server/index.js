@@ -9,6 +9,7 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import { register } from "./controller/userController.js";
+import userRouter from "./routes/userroutes.js";
 
 // Configuration
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +40,9 @@ const upload =multer({storage});
 
 // routes with files
 app.post("/auth/register", upload.single("picture"), register);
+
+// Routes
+app.use("/auth", userRouter);
 
 const PORT = process.env.PORT || 6000
 
