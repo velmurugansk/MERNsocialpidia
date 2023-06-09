@@ -8,7 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { error } from "console";
+import { register } from "./controller/userController.js";
 
 // Configuration
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +36,9 @@ const storage = multer.diskStorage({
 });
 
 const upload =multer({storage});
+
+// routes with files
+app.post("/auth/register", upload.single("picture"), register);
 
 const PORT = process.env.PORT || 6000
 
