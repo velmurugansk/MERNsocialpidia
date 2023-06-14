@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:5000'
 
 export const loginAPI = async (credentials) => {
     try {
-        const response = await axios.post(`${BASE_URL}/auth/login`, credentials);        
+        const response = await axios.post(`${BASE_URL}/auth/login`, credentials);               
         return response.data;
     } catch (error) {
         throw new Error(error.response.data.message);

@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         max:50,
         unique: true,
     },
-    lastName:{
+    password:{
         type:String,
         required:true,
         min:5,        
