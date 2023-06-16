@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {loginAPI, registerAPI} from "../api/loginApi";
 
 const initialState = {
-    mode:"light",
+    isDarkmode:false,
     isLoggedIn: false,
     user: null,
     token:null,
@@ -28,14 +28,15 @@ export const register = createAsyncThunk('/auth/register', async (userdata) => {
     }
 });
 
-export const modeset = () => {
-    
-}
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        themeDark: (state) => {
+            state.isDarkmode = isDarkmode
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state) => {
@@ -67,10 +68,7 @@ const userSlice = createSlice({
             .addCase(register.rejected, (state, action) => {
                 state.isRegistered = false;
                 state.error = action.error.message;
-            })
-            .addCase(modeset, (state) => {
-                state.mode = state.mode === "light" ? "dark" : "light";
-            });
+            });            
     },
 });
 
