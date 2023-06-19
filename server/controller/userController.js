@@ -54,7 +54,7 @@ export const login = async (req, res) => {
         if(!isMatch) return res.json({status:false, message:`Invalid Credentials.`});
 
         const token = jwt.sign({id:user._id}, process.env.SECRETKEY);
-        delete user.password;
+        delete user.password;             
         res.json({status:true,token,data:user});
 
     } catch(err) {

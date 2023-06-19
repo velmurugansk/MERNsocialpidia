@@ -22,6 +22,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({policy : "cross-origin"}));
 app.use(morgan("common"));
@@ -50,6 +51,7 @@ app.post("/post", verifyToken, upload.single("picture"), createPost);
 app.use("/auth", userRouter);
 app.use("/user",userdetailRouter);
 app.use("/post", postRouter);
+
 
 const PORT = process.env.PORT || 6000
 

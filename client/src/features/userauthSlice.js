@@ -34,7 +34,10 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         themeDark: (state) => {
-            state.isDarkmode = isDarkmode
+            state.isDarkmode = true;
+        }, 
+        themeLight: (state) => {
+            state.isDarkmode = false;   
         }
     },
     extraReducers: (builder) => {
@@ -72,4 +75,5 @@ const userSlice = createSlice({
     },
 });
 
+export const {themeDark, themeLight} = userSlice.actions
 export default userSlice.reducer;

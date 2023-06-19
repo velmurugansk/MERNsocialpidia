@@ -7,12 +7,12 @@ import { loginSchema } from "../common/validations";
 import { Formik } from "formik";
 import {Link, useNavigate} from "react-router-dom";
 
-const Login = () => {
 
+const Login = () => {  
   const [loadings, setLoadings] = useState(false);
   const dispatch = useDispatch();  
   const error = useSelector((state) => state.user.error);
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
 
   const handleforSubmit = async (values) => {    
     setLoadings(true);
