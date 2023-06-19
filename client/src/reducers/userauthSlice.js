@@ -1,18 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {loginAPI, registerAPI} from "../api/loginApi";
+import { loginAPI, registerAPI } from "../api/loginApi";
 
 const initialState = {
-    isDarkmode:false,
+    isDarkmode: false,
     isLoggedIn: false,
     user: null,
-    token:null,
+    token: null,
     error: null,
-    isRegistered:false
+    isRegistered: false
 };
 
 export const login = createAsyncThunk('/auth/login', async (credentials) => {
     try {
-        const response = await loginAPI(credentials);        
+        const response = await loginAPI(credentials);
         return response;
     } catch (error) {
         throw new Error(error.response.data.message);
@@ -35,9 +35,14 @@ const userSlice = createSlice({
     reducers: {
         themeDark: (state) => {
             state.isDarkmode = true;
-        }, 
+        },
         themeLight: (state) => {
-            state.isDarkmode = false;   
+            state.isDarkmode = false;
+        },
+        logout: (state) => {
+            state.isLoggedIn = false;
+            state.user = "";
+            state.token = "";
         }
     },
     extraReducers: (builder) => {
@@ -46,15 +51,15 @@ const userSlice = createSlice({
                 state.isLoggedIn = false;
                 state.error = null;
             })
-            .addCase(login.fulfilled, (state, action) => {                
-                if(action.payload.status) {
+            .addCase(login.fulfilled, (state, action) => {
+                if (action.payload.status) {
                     state.isLoggedIn = true;
                     state.user = action.payload.data;
                     state.token = action.payload.token;
                 } else {
                     state.isLoggedIn = false;
                     state.error = action.payload.message;
-                }                
+                }
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoggedIn = false;
@@ -71,9 +76,9 @@ const userSlice = createSlice({
             .addCase(register.rejected, (state, action) => {
                 state.isRegistered = false;
                 state.error = action.error.message;
-            });            
+            });
     },
 });
 
-export const {themeDark, themeLight} = userSlice.actions
+export const { themeDark, themeLight, logout } = userSlice.actions
 export default userSlice.reducer;

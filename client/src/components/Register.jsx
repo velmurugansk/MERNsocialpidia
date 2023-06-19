@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Input, Button } from 'antd';
 import { registerSchema } from '../common/validations';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from "../features/userauthSlice";
+import { register } from "../reducers/userauthSlice";
 import { Formik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 

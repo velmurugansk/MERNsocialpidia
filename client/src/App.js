@@ -5,7 +5,8 @@ import Layout from "./components/Layout";
 import { useSelector } from "react-redux";
 
 function App() {
-  const isAuth = Boolean(useSelector((state) => state.user.isLoggedIn ));    
+  let isAuth = useSelector((state) => state.user.isLoggedIn );
+  isAuth = isAuth ? isAuth : "";
   return (
     <div>
       <BrowserRouter>

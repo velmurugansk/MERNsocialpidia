@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from "../features/userauthSlice";
+import { login } from "../reducers/userauthSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { UserOutlined } from '@ant-design/icons';
 import { Input, Button } from 'antd';
