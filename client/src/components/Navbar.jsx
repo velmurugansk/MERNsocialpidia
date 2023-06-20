@@ -22,20 +22,26 @@ const Navbar = () => {
   if(theme) {
     r.style.setProperty('--backgroundcolor', '#000');
     r.style.setProperty('--textcolor', '#fff');
+    r.style.setProperty('--navbackgroundcolor', '#1A1A1A');
+    r.style.setProperty('--bordercolor', '#fff');
+    r.style.setProperty('--boxbackgroundcolor', '#333333');
   } else {
     r.style.setProperty('--backgroundcolor', '#fff');
     r.style.setProperty('--textcolor', '#000');  
+    r.style.setProperty('--navbackgroundcolor', '#fff');
+    r.style.setProperty('--bordercolor', '#000');
+    r.style.setProperty('--boxbackgroundcolor', '#fff');
   }
 
   return (
-    <div className='fixed w-full h-20 shadow-md px-4'>
+    <div className='fixed w-full h-20 navbg px-4'>
       <div className="flex justify-between h-full w-full px-2 2xl:px-16 items-center">
         <h1 className='font-bold'>SocialTimes</h1>
         <div>
           <Search
             placeholder="search"
             // onSearch={onSearch}
-            className='w-100'
+            className='w-100 inputboxbg'
           />
         </div>
         <div className='flex justify-between'>
