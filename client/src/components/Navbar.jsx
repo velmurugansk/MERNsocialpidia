@@ -3,7 +3,8 @@ import {MdLightMode, MdNightlight} from "react-icons/md";
 import { useSelector, useDispatch } from 'react-redux';
 import { Input } from 'antd';
 import { themeDark, themeLight, logout } from '../reducers/userauthSlice';
-import {IoLogOutOutline} from "react-icons/io5";
+import {HiOutlineLogout} from "react-icons/hi";
+import {AiFillBell} from "react-icons/ai";
 const { Search } = Input;
 
 const Navbar = () => {
@@ -34,7 +35,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className='fixed w-full h-20 navbg px-4'>
+    <div className='fixed w-full h-20 navbg px-4 z-40 left-0 top-0'>
       <div className="flex justify-between h-full w-full px-2 2xl:px-16 items-center">
         <h1 className='font-bold'>SocialTimes</h1>
         <div>
@@ -46,7 +47,8 @@ const Navbar = () => {
         </div>
         <div className='flex justify-between'>
           <div className='cursor-pointer mr-2' onClick={changeTheme}>{theme ? <MdNightlight />  :  <MdLightMode /> }</div> 
-          <IoLogOutOutline className='cursor-pointer' onClick={() => dispatch(logout())} />         
+          <AiFillBell className='mr-2' />
+          <HiOutlineLogout className='cursor-pointer' onClick={() => dispatch(logout())} />         
         </div>
       </div>
     </div>
