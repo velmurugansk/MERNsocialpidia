@@ -9,8 +9,7 @@ import { useNavigate, Link } from "react-router-dom";
 const Register = () => {
     const error = useSelector((state) => state.user.error);
     const [loadings, setLoadings] = useState(false);
-    const navigate = useNavigate();    
-    const [fileList, setFileList] = useState([]);
+    const navigate = useNavigate();        
     const initialvalue = {
         firstName: "",
         lastName: "",
@@ -22,9 +21,9 @@ const Register = () => {
     }
     const dispatch = useDispatch();
 
-    const handleforSubmit = (values) => {
+    const handleforSubmit = async (values) => {
         setLoadings(true);
-        let registerdata = dispatch(register(values));
+        let registerdata =await dispatch(register(values));        
         if (registerdata.payload.status) {
             setLoadings(false);
             navigate("/");
@@ -33,22 +32,25 @@ const Register = () => {
         }
     }
 
-    const handleimgChange = (e) => {                     
-        setFileList(e.target.files[0])
-    }
+    
     
     return (
         <>
             <Formik validationSchema={registerSchema} initialValues={initialvalue} onSubmit={(values) => {                
-                values.picturePath = fileList ? fileList : "";
-                handleforSubmit(values)
+                const formData = new FormData();
+                for(let value in values) {
+                    formData.append(value, values[value]);
+                }                
+                formData.append("picturePath", values.picture.name);                
+                handleforSubmit(formData)
             }}>
                 {({ values,
                     errors,
                     touched,
                     handleChange,
                     handleBlur,
-                    handleSubmit }) => (
+                    handleSubmit,
+                    setFieldValue }) => (
                     <div className='h-screen w-full flex justify-center items-center p-3'>
                         <div className="w-2/4 border rounded-md p-4">
                             <h1 className='text-center font-bold py-3'>Register</h1>
@@ -75,7 +77,8 @@ const Register = () => {
                                     <Input.Password placeholder="Password" size='large' name="password" onChange={handleChange} onBlur={handleBlur} />
                                     <div className='text-red-600'>{errors.password && touched.password && errors.password}</div>
                                 </div>
-                                <input type='file' accept=".png, .jpg, .jpeg" name="photo" onChange={handleimgChange} />
+                                <input type='file' accept=".png, .jpg, .jpeg" name="photo" onChange={(acceptfiles) => {                                                                       
+                                    setFieldValue("picture", acceptfiles.target.files[0]) } } />
                             </div>
                             {error && <div className='text-red-600'>{error}</div>}
                             <div className="text-center py-3">

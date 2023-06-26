@@ -13,8 +13,12 @@ export const loginAPI = async (credentials) => {
 
 export const registerAPI = async (userdata) => {
     try {
-        const response = await axios.post(`${BASE_URL}/auth/register`, userdata);        
-        return response;
+        const response = await axios.post(`${BASE_URL}/auth/register`, userdata,{
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            }
+        });        
+        return response.data;
     } catch (error) {
         throw new Error(error.response.data.message);
     }

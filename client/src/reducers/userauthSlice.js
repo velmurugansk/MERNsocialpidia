@@ -69,9 +69,14 @@ const userSlice = createSlice({
                 state.isRegistered = false;
                 state.error = null;
             })
-            .addCase(register.fulfilled, (state, action) => {
-                state.isRegistered = true;
-                state.user = action.payload;
+            .addCase(register.fulfilled, (state, action) => {                                
+                if (action.payload.status) {
+                    state.isRegistered = true;                    
+                    state.user = action.payload.message;
+                } else {
+                    state.isRegistered = false;
+                    state.error = action.payload.message;
+                }
             })
             .addCase(register.rejected, (state, action) => {
                 state.isRegistered = false;
