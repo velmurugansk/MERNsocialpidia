@@ -1,27 +1,15 @@
 import React, { useState } from 'react'
-import { Input, Button, Modal, Upload } from 'antd';
+import { Input, Button } from 'antd';
 import { registerSchema } from '../common/validations';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from "../reducers/userauthSlice";
 import { Formik } from "formik";
 import { useNavigate, Link } from "react-router-dom";
-import { PlusOutlined } from '@ant-design/icons';
-
-const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-    });
 
 const Register = () => {
     const error = useSelector((state) => state.user.error);
     const [loadings, setLoadings] = useState(false);
-    const navigate = useNavigate();
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [previewTitle, setPreviewTitle] = useState('');
+    const navigate = useNavigate();    
     const [fileList, setFileList] = useState([]);
     const initialvalue = {
         firstName: "",
@@ -45,33 +33,14 @@ const Register = () => {
         }
     }
 
-    const handleCancel = () => setPreviewOpen(false);
-    const handlePreview = async (file) => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        setPreviewImage(file.url || file.preview);
-        setPreviewOpen(true);
-        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-    };
-
-    const handleimgChange = ({ fileList: newFileList }) => setFileList(newFileList);
-    const uploadButton = (
-        <div>
-            <PlusOutlined />
-            <div
-                style={{
-                    marginTop: 8,
-                }}
-            >
-                Upload
-            </div>
-        </div>
-    );
-
+    const handleimgChange = (e) => {                     
+        setFileList(e.target.files[0])
+    }
+    
     return (
         <>
-            <Formik validationSchema={registerSchema} initialValues={initialvalue} onSubmit={(values) => {
+            <Formik validationSchema={registerSchema} initialValues={initialvalue} onSubmit={(values) => {                
+                values.picturePath = fileList ? fileList : "";
                 handleforSubmit(values)
             }}>
                 {({ values,
@@ -106,24 +75,7 @@ const Register = () => {
                                     <Input.Password placeholder="Password" size='large' name="password" onChange={handleChange} onBlur={handleBlur} />
                                     <div className='text-red-600'>{errors.password && touched.password && errors.password}</div>
                                 </div>
-                                <Upload
-                                    action="/register"
-                                    listType="picture-circle"
-                                    fileList={fileList}
-                                    onPreview={handlePreview}
-                                    onChange={handleimgChange}
-                                >
-                                    {fileList.length >= 8 ? null : uploadButton}
-                                </Upload>
-                                <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                                    <img
-                                        alt="example"
-                                        style={{
-                                            width: '100%',
-                                        }}
-                                        src={previewImage}
-                                    />
-                                </Modal>
+                                <input type='file' accept=".png, .jpg, .jpeg" name="photo" onChange={handleimgChange} />
                             </div>
                             {error && <div className='text-red-600'>{error}</div>}
                             <div className="text-center py-3">
